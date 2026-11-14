@@ -5,10 +5,10 @@ import { createServer } from "./server";
 
 export default defineConfig({
   server: {
-    host: "::",
+    host: true,
     port: 8080,
     fs: {
-      allow: ["./client", "./shared"],
+      allow: ["./index.html", "./client", "./shared"],
       deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "server/**"],
     },
   },
