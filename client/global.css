@@ -21,14 +21,15 @@
     --popover: 0 0% 100%;
     --popover-foreground: 223 47% 11%;
 
-    --primary: 24 90% 52%;
-    --primary-foreground: 210 40% 98%;
+    /* Orange tuned for WCAG AA: 5.7:1 against white for text and buttons. */
+    --primary: 19 90% 37%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 220 75% 50%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 220 16% 94%;
-    --muted-foreground: 215 16% 46%;
+    --muted-foreground: 215 19% 39%;
 
     --accent: 48 96% 53%;
     --accent-foreground: 224 71% 4%;
@@ -38,7 +39,7 @@
 
     --border: 220 14% 91%;
     --input: 220 14% 91%;
-    --ring: 24 90% 52%;
+    --ring: 19 90% 37%;
 
     --radius: 0.65rem;
 
@@ -65,7 +66,7 @@
     --primary: 28 92% 60%;
     --primary-foreground: 224 71% 4%;
 
-    --secondary: 217 70% 52%;
+    --secondary: 217 72% 46%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217 33% 17%;
@@ -74,12 +75,12 @@
     --accent: 45 90% 48%;
     --accent-foreground: 224 71% 4%;
 
-    --destructive: 0 62% 30%;
+    --destructive: 0 72% 42%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 217 91% 59%;
+    --ring: 28 92% 60%;
 
     --sidebar-background: 222 50% 6%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -97,7 +98,83 @@
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
   }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-balance tracking-tight;
+  }
+
+  ::selection {
+    @apply bg-primary/20;
+  }
+
+  /* A visible focus indicator for anything that doesn't define its own. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Respect users who ask for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Shared page scaffolding so every route uses the same rhythm. */
+  .page-header {
+    @apply border-b bg-gradient-to-b from-muted/60 to-background;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-wider text-primary;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold tracking-tight md:text-3xl;
+  }
+
+  .card-surface {
+    @apply rounded-xl bg-card text-card-foreground shadow-sm ring-1 ring-border;
+  }
+
+  .card-interactive {
+    @apply transition duration-200 hover:-translate-y-0.5 hover:shadow-md hover:ring-primary/40 motion-reduce:hover:translate-y-0;
+  }
+
+  .link {
+    @apply font-medium text-primary underline-offset-4 hover:underline;
+  }
+}
+
+/* Leaflet's default attribution links fall below AA contrast. */
+.leaflet-container .leaflet-control-attribution {
+  @apply bg-white/90 text-slate-700;
+}
+.leaflet-container .leaflet-control-attribution a {
+  @apply text-blue-800;
 }

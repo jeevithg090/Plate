@@ -1,3 +1,4 @@
+import SmartImage from "@/components/ui/smart-image";
 import { useMemo, useState } from "react";
 import {
   Bar,
@@ -168,7 +169,12 @@ export default function AlumniCountries() {
       <h3 className="text-base font-medium text-center mt-6">
         Countries (selected year)
       </h3>
-      <div className="mt-2 max-h-72 overflow-auto mx-auto border rounded-md p-3 bg-background w-full md:w-[480px]">
+      <div
+        tabIndex={0}
+        role="region"
+        aria-label="Alumni by country for the selected year"
+        className="mt-2 max-h-72 overflow-auto mx-auto border rounded-md p-3 bg-background w-full md:w-[480px]"
+      >
         {chartData.map((row) => {
           const code =
             countryFlags[row.country] ||
@@ -180,11 +186,11 @@ export default function AlumniCountries() {
             >
               <div className="flex items-center gap-2">
                 {code ? (
-                  <img
+                  <SmartImage
                     src={`https://flagcdn.com/w20/${code}.png`}
-                    alt={`${row.country} flag`}
+                    alt=""
                     className="h-[14px] w-5 rounded-sm border"
-                    loading="lazy"
+                    fallback={null}
                   />
                 ) : null}
                 <span className="text-sm">{row.country}</span>
