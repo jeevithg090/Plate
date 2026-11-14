@@ -50,16 +50,16 @@ export default function AcademicCalendar() {
 
   return (
     <section className="container py-12">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <h2 className="text-2xl font-bold tracking-tight">
           Academic Calendar 2025–26
         </h2>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Badge className="bg-emerald-600 text-white">Event</Badge>
           <Badge className="bg-amber-600 text-white">Exam</Badge>
           <Badge className="bg-rose-600 text-white">Holiday</Badge>
           <Button asChild size="sm" variant="outline">
-            <a href={PDF_URL} target="_blank" rel="noreferrer">
+            <a href={PDF_URL} target="_blank" rel="noopener noreferrer">
               Download PDF
             </a>
           </Button>
@@ -174,7 +174,7 @@ export default function AcademicCalendar() {
             <a
               href={PDF_URL}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="underline"
             >
               Open calendar PDF

@@ -32,9 +32,9 @@ export default function Timetable() {
   const height = HOURS.length * HOUR_HEIGHT;
   return (
     <section className="container py-12">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <h2 className="text-2xl font-bold tracking-tight">Class Timetable</h2>
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-sm">
           <span className="rounded-md border px-2 py-1">
             {timetableMeta.semester}
           </span>
