@@ -1,5 +1,6 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback } from "react";
+import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, GraduationCap } from "lucide-react";
 import { programs } from "@/data/sample";
 
@@ -17,20 +18,22 @@ export default function ProgramCarousel() {
     <section className="container py-12">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-bold tracking-tight">Featured Programs</h2>
-        <div className="hidden gap-2 md:flex">
+        <div className="flex gap-2">
           <button
-            aria-label="Previous"
+            type="button"
+            aria-label="Previous program"
             onClick={scrollPrev}
-            className="rounded-md border p-2 hover:bg-muted"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border bg-background transition-colors hover:bg-muted"
           >
-            <ChevronLeft size={18} />
+            <ChevronLeft size={18} aria-hidden />
           </button>
           <button
-            aria-label="Next"
+            type="button"
+            aria-label="Next program"
             onClick={scrollNext}
-            className="rounded-md border p-2 hover:bg-muted"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border bg-background transition-colors hover:bg-muted"
           >
-            <ChevronRight size={18} />
+            <ChevronRight size={18} aria-hidden />
           </button>
         </div>
       </div>
@@ -40,11 +43,11 @@ export default function ProgramCarousel() {
           {programs.map((p) => (
             <article
               key={p.id}
-              className="ml-4 min-w-[85%] shrink-0 rounded-xl bg-card p-6 ring-1 ring-border shadow-sm sm:min-w-[55%] md:min-w-[33%]"
+              className="card-surface ml-4 flex min-w-[85%] shrink-0 flex-col p-6 sm:min-w-[55%] md:min-w-[33%]"
             >
               <div className="flex items-center gap-3">
                 <div className="grid h-10 w-10 place-items-center rounded-full bg-primary/10 text-primary">
-                  <GraduationCap size={18} />
+                  <GraduationCap size={18} aria-hidden />
                 </div>
                 <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                   {p.level}
@@ -52,10 +55,16 @@ export default function ProgramCarousel() {
               </div>
               <h3 className="mt-3 text-lg font-semibold">{p.name}</h3>
               <div className="text-xs text-muted-foreground">{p.duration}</div>
-              <p className="mt-3 text-sm">{p.summary}</p>
-              <button className="mt-4 inline-flex items-center rounded-md border px-3 py-1.5 text-sm hover:bg-muted">
+              <p className="mt-3 flex-1 text-sm text-muted-foreground">
+                {p.summary}
+              </p>
+              <Link
+                to="/academics"
+                className="mt-4 inline-flex h-10 w-fit items-center rounded-md border px-4 text-sm font-medium transition-colors hover:bg-muted"
+              >
                 View details
-              </button>
+                <span className="sr-only"> about {p.name}</span>
+              </Link>
             </article>
           ))}
         </div>

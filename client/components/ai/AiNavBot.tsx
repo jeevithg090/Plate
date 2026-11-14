@@ -1,6 +1,5 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import ThemeToggle from "@/components/theme/ThemeToggle";
 import { matchRoutes, NAV_ROUTES, type NavChoice } from "@/lib/navigator";
 
 interface Message {
@@ -144,9 +143,7 @@ export default function AiNavBot() {
         </div>
       )}
 
-      {/* Toggles row */}
-      <div className="flex items-center justify-end gap-2">
-        <ThemeToggle />
+      <div className="flex items-center justify-end">
         <button
           type="button"
           className="flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

@@ -1,3 +1,13 @@
+function initials(name: string) {
+  return name
+    .replace(/^Dr\.\s*/, "")
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
 export default function Testimonials() {
   const items = [
     {
@@ -5,21 +15,18 @@ export default function Testimonials() {
         "ICAS gave me a platform to turn research into real clinical impact.",
       name: "Aarav K.",
       role: "Alumni, Biomedical Engineering",
-      avatar: "https://i.pravatar.cc/80?img=12",
     },
     {
       quote:
         "Mentorship and open collaboration make this community truly unique.",
       name: "Priya S.",
       role: "Ph.D. Candidate, AI for Health",
-      avatar: "https://i.pravatar.cc/80?img=32",
     },
     {
       quote:
         "My lab’s partnership with ICAS accelerated deployment to hospitals.",
       name: "Dr. James R.",
       role: "Clinical Partner",
-      avatar: "https://i.pravatar.cc/80?img=5",
     },
   ];
   return (
@@ -31,18 +38,18 @@ export default function Testimonials() {
         {items.map((t) => (
           <figure
             key={t.name}
-            className="rounded-xl bg-card p-6 ring-1 ring-border"
+            className="card-surface flex flex-col justify-between p-6"
           >
             <blockquote className="text-sm leading-relaxed">
               “{t.quote}”
             </blockquote>
             <figcaption className="mt-4 flex items-center gap-3">
-              <img
-                src={t.avatar}
-                alt=""
-                className="h-10 w-10 rounded-full"
-                loading="lazy"
-              />
+              <span
+                aria-hidden
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-primary/20 to-secondary/25 text-sm font-semibold text-foreground"
+              >
+                {initials(t.name)}
+              </span>
               <div>
                 <div className="text-sm font-medium">{t.name}</div>
                 <div className="text-xs text-muted-foreground">{t.role}</div>
