@@ -1,15 +1,21 @@
 [build]
-  command = "npm run build:client"
+  command = "pnpm build:client"
   functions = "netlify/functions"
   publish = "dist/spa"
-
 
 [functions]
   external_node_modules = ["express"]
   node_bundler = "esbuild"
-  
+
+# Route API calls to the serverless Express app.
 [[redirects]]
   force = true
   from = "/api/*"
   status = 200
   to = "/.netlify/functions/api/:splat"
+
+# Client-side routing fallback so deep links (e.g. /portal/courses) resolve.
+[[redirects]]
+  from = "/*"
+  status = 200
+  to = "/index.html"
