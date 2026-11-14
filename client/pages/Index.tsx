@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import ProgramCarousel from "@/components/sections/ProgramCarousel";
@@ -31,10 +30,6 @@ const news = [
 ];
 
 export default function Index() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <main className="min-h-screen">
       <SEO
