@@ -163,7 +163,7 @@ export default function UniversityMap() {
           </div>
         </div>
       )}
-      <div className="overflow-hidden rounded-xl bg-slate-900 ring-1 ring-border">
+      <div className="isolate overflow-hidden rounded-xl bg-slate-900 ring-1 ring-border">
         <div
           ref={mapRef}
           className="h-96 w-full"
