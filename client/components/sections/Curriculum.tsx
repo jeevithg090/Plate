@@ -48,12 +48,10 @@ export default function Curriculum() {
           {entries.map(([key, cur]) => (
             <AccordionItem key={key} value={key}>
               <AccordionTrigger>
-                <div className="flex w-full items-center justify-between">
-                  <div>
-                    <div className="text-base font-semibold">{cur.program}</div>
-                    <div className="text-xs text-muted-foreground">
-                      Total: {cur.totalCredits} credits • {cur.yearBreakdown}
-                    </div>
+                <div>
+                  <div className="text-base font-semibold">{cur.program}</div>
+                  <div className="text-xs font-normal text-muted-foreground">
+                    Total: {cur.totalCredits} credits • {cur.yearBreakdown}
                   </div>
                 </div>
               </AccordionTrigger>

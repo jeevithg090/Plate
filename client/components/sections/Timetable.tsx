@@ -18,13 +18,13 @@ const HOURS = Array.from({ length: 10 }).map((_, i) => {
 });
 
 const COLORS: Record<string, string> = {
-  violet: "bg-violet-500/90 text-white",
-  pink: "bg-pink-500/90 text-white",
-  emerald: "bg-emerald-500/90 text-white",
-  cyan: "bg-cyan-500/90 text-white",
-  orange: "bg-orange-500/90 text-white",
-  blue: "bg-blue-500/90 text-white",
-  indigo: "bg-indigo-500/90 text-white",
+  violet: "bg-violet-700 text-white",
+  pink: "bg-pink-700 text-white",
+  emerald: "bg-emerald-700 text-white",
+  cyan: "bg-cyan-700 text-white",
+  orange: "bg-orange-700 text-white",
+  blue: "bg-blue-600 text-white",
+  indigo: "bg-indigo-600 text-white",
 };
 
 export default function Timetable() {
@@ -44,9 +44,17 @@ export default function Timetable() {
         </div>
       </div>
 
-      <Card className="mt-6 overflow-hidden">
+      <p className="mt-2 text-xs text-muted-foreground sm:hidden">
+        Swipe sideways to see the whole week.
+      </p>
+      <Card
+        className="mt-4 overflow-x-auto sm:mt-6"
+        role="region"
+        aria-label="Weekly class timetable"
+        tabIndex={0}
+      >
         <div
-          className="grid"
+          className="grid min-w-[640px]"
           style={{
             gridTemplateColumns: `80px repeat(${days.length}, minmax(0,1fr))`,
           }}
@@ -113,8 +121,8 @@ export default function Timetable() {
                             </span>
                           )}
                         </div>
-                        <div className="mt-0.5 opacity-90">{s.code}</div>
-                        <div className="opacity-90">
+                        <div className="mt-0.5">{s.code}</div>
+                        <div>
                           {s.start} – {s.end}
                         </div>
                       </div>
