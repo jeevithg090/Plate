@@ -8,9 +8,22 @@
       name="description"
       content="A modern, accessible institute advancing research, medicine, and education worldwide."
     />
-    <meta name="theme-color" content="#f97316" />
+    <meta
+      name="theme-color"
+      content="#c2410c"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0b1120"
+      media="(prefers-color-scheme: dark)"
+    />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <meta
       property="og:title"
@@ -49,7 +62,11 @@
   </head>
 
   <body>
-    <noscript>This site needs JavaScript enabled to run.</noscript>
+    <noscript>
+      <p style="font-family: system-ui, sans-serif; padding: 1rem">
+        This site needs JavaScript enabled to run.
+      </p>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/client/App.tsx"></script>
   </body>

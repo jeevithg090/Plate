@@ -1,0 +1,9 @@
+{
+  "name": "ICAS — International Center for Applied Science",
+  "short_name": "ICAS",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }],
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#c2410c"
+}
