@@ -5,9 +5,15 @@
   "properties": {
     "author": { "type": "string" },
     "createdAt": { "type": "string", "format": "date-time" },
-    "visibility": { "type": "string", "enum": ["students", "faculty", "private"] },
+    "visibility": {
+      "type": "string",
+      "enum": ["students", "faculty", "private"]
+    },
     "content": { "type": "string" },
-    "attachments": { "type": "array", "items": { "type": "string", "format": "uri" } }
+    "attachments": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri" }
+    }
   },
   "required": ["author", "createdAt", "visibility", "content"],
   "additionalProperties": false

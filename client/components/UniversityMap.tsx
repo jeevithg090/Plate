@@ -81,12 +81,15 @@ export default function UniversityMap() {
           worldCopyJump: true,
         });
 
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          subdomains: "abcd",
-          maxZoom: 19,
-        }).addTo(map);
+        L.tileLayer(
+          "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+          {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: "abcd",
+            maxZoom: 19,
+          },
+        ).addTo(map);
 
         for (const uni of partnerUniversities) {
           const cohort = alumniCohorts[uni.id];
@@ -141,7 +144,9 @@ export default function UniversityMap() {
           <div className="rounded-lg border bg-background/95 p-6 text-center shadow-xl">
             {status === "loading" ? (
               <>
-                <h3 className="text-base font-semibold">Loading partner universities…</h3>
+                <h3 className="text-base font-semibold">
+                  Loading partner universities…
+                </h3>
                 <p className="mt-1 text-sm text-muted-foreground">
                   Initializing interactive world map
                 </p>
@@ -150,7 +155,8 @@ export default function UniversityMap() {
               <>
                 <h3 className="text-base font-semibold">Map unavailable</h3>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  The map couldn't be loaded. The partner list below is still available.
+                  The map couldn't be loaded. The partner list below is still
+                  available.
                 </p>
               </>
             )}
@@ -166,7 +172,10 @@ export default function UniversityMap() {
         />
       </div>
 
-      <Dialog open={!!selectedUni} onOpenChange={(open) => !open && setSelectedId(null)}>
+      <Dialog
+        open={!!selectedUni}
+        onOpenChange={(open) => !open && setSelectedId(null)}
+      >
         <DialogContent className="max-w-[700px]">
           {selectedUni && (
             <>
@@ -180,12 +189,15 @@ export default function UniversityMap() {
                     <Stat value={cohort.total} label="ICAS alumni" />
                     <Stat value={cohort.cs} label="CS/CSE" />
                     <Stat value={cohort.mech} label="Mechanical" />
-                    {cohort.other > 0 && <Stat value={cohort.other} label="Other" />}
+                    {cohort.other > 0 && (
+                      <Stat value={cohort.other} label="Other" />
+                    )}
                   </div>
                   {cohort.firstCohort && cohort.latestCohort && (
                     <p className="mt-4 text-sm text-muted-foreground">
-                      ICAS students have transferred here through the 2+2 pathway in cohorts
-                      from {cohort.firstCohort} to {cohort.latestCohort}.
+                      ICAS students have transferred here through the 2+2
+                      pathway in cohorts from {cohort.firstCohort} to{" "}
+                      {cohort.latestCohort}.
                     </p>
                   )}
                 </div>
@@ -195,8 +207,9 @@ export default function UniversityMap() {
                     ICAS Partner University
                   </div>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    This university is part of the ICAS network, offering academic collaboration
-                    and exchange opportunities. There are currently no ICAS alumni recorded here.
+                    This university is part of the ICAS network, offering
+                    academic collaboration and exchange opportunities. There are
+                    currently no ICAS alumni recorded here.
                   </p>
                 </div>
               )}

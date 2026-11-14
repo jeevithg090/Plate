@@ -22,7 +22,9 @@ export interface DemoAccount extends AuthUser {
 export const AUTH_STORAGE_KEY = "icas_auth_user";
 
 function isRole(value: unknown): value is Role {
-  return typeof value === "string" && (ROLES as readonly string[]).includes(value);
+  return (
+    typeof value === "string" && (ROLES as readonly string[]).includes(value)
+  );
 }
 
 /** Validates an unknown value (e.g. parsed JSON) as an AuthUser. */
@@ -44,7 +46,9 @@ export function authenticate(
   const match = accounts.find(
     (a) => a.email.toLowerCase() === normalized && a.password === password,
   );
-  return match ? { email: match.email, name: match.name, role: match.role } : null;
+  return match
+    ? { email: match.email, name: match.name, role: match.role }
+    : null;
 }
 
 export function readStoredUser(storage: Storage | undefined): AuthUser | null {

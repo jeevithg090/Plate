@@ -31,9 +31,14 @@ export default class ErrorBoundary extends Component<Props, State> {
   render() {
     if (!this.state.error) return this.props.children;
     return (
-      <main role="alert" className="container flex min-h-[60vh] items-center justify-center py-16">
+      <main
+        role="alert"
+        className="container flex min-h-[60vh] items-center justify-center py-16"
+      >
         <div className="max-w-md text-center">
-          <h1 className="text-2xl font-bold tracking-tight">Something went wrong</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Something went wrong
+          </h1>
           <p className="mt-3 text-sm text-muted-foreground">
             This page failed to load. Check your connection and try again.
           </p>

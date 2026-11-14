@@ -13,7 +13,9 @@ export const SUBMISSIONS_STORAGE_KEY = "icas_submissions";
 function isSubmission(value: unknown): value is Submission {
   if (!value || typeof value !== "object") return false;
   const v = value as Record<string, unknown>;
-  return typeof v.assignmentId === "string" && typeof v.submittedAt === "string";
+  return (
+    typeof v.assignmentId === "string" && typeof v.submittedAt === "string"
+  );
 }
 
 export function getSubmissions(
@@ -23,7 +25,8 @@ export function getSubmissions(
     const raw = storage?.getItem(SUBMISSIONS_STORAGE_KEY);
     if (!raw) return {};
     const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed))
+      return {};
     return Object.fromEntries(
       Object.entries(parsed).filter(([, v]) => isSubmission(v)),
     ) as Record<string, Submission>;

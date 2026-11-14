@@ -16,13 +16,19 @@ export default function Newsletter() {
       <div className="container py-14">
         <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 p-8 ring-1 ring-border">
           <div className="max-w-2xl">
-            <h2 id="newsletter-heading" className="text-2xl font-bold tracking-tight">
+            <h2
+              id="newsletter-heading"
+              className="text-2xl font-bold tracking-tight"
+            >
               Stay in the loop
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Get news, events, and research updates in your inbox.
             </p>
-            <form onSubmit={onSubmit} className="mt-5 flex gap-2 max-sm:flex-col">
+            <form
+              onSubmit={onSubmit}
+              className="mt-5 flex gap-2 max-sm:flex-col"
+            >
               <label htmlFor="newsletter-email" className="sr-only">
                 Email address
               </label>

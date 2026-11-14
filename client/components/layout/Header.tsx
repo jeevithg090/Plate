@@ -84,7 +84,10 @@ export default function Header() {
           />
           ICAS
         </Link>
-        <nav aria-label="Main" className="hidden items-center gap-5 text-sm font-medium md:flex">
+        <nav
+          aria-label="Main"
+          className="hidden items-center gap-5 text-sm font-medium md:flex"
+        >
           {nav.map((n) => (
             <NavLink
               key={n.to}
@@ -123,8 +126,13 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
               <SheetTitle>ICAS</SheetTitle>
-              <SheetDescription className="sr-only">Site navigation</SheetDescription>
-              <nav aria-label="Mobile" className="mt-6 grid gap-1 text-base font-medium">
+              <SheetDescription className="sr-only">
+                Site navigation
+              </SheetDescription>
+              <nav
+                aria-label="Mobile"
+                className="mt-6 grid gap-1 text-base font-medium"
+              >
                 {nav.map((n) => (
                   <NavLink
                     key={n.to}

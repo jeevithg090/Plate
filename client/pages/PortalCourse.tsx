@@ -51,7 +51,8 @@ function AssignmentCard({
       </CardHeader>
       <CardContent className="grid gap-3 pt-0">
         <div className="text-xs text-muted-foreground">
-          Due {new Date(assignment.due).toLocaleString()} · Max {assignment.maxMarks} marks
+          Due {new Date(assignment.due).toLocaleString()} · Max{" "}
+          {assignment.maxMarks} marks
         </div>
         <form onSubmit={onSubmit} className="grid gap-2">
           <Label htmlFor={urlId} className="sr-only">
@@ -130,7 +131,9 @@ export default function PortalCourse() {
 
           <TabsContent value="assignments" className="mt-4 grid gap-4">
             {assignments.length === 0 && (
-              <p className="text-sm text-muted-foreground">No assignments posted yet.</p>
+              <p className="text-sm text-muted-foreground">
+                No assignments posted yet.
+              </p>
             )}
             {assignments.map((a) => (
               <AssignmentCard

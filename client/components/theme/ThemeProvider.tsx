@@ -1,4 +1,11 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 export type Theme = "light" | "dark";
 
@@ -19,12 +26,16 @@ function applyTheme(t: Theme) {
 function readInitialTheme(): Theme {
   let stored: string | null = null;
   try {
-    stored = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+    stored =
+      typeof window !== "undefined" ? localStorage.getItem("theme") : null;
   } catch {
     stored = null;
   }
   if (stored === "dark" || stored === "light") return stored;
-  const prefersDark = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const prefersDark =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
   return prefersDark ? "dark" : "light";
 }
 
@@ -55,13 +66,18 @@ export default function ThemeProvider({ children }: PropsWithChildren) {
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
-  const value = useMemo<ThemeContextValue>(() => ({
-    theme,
-    toggle: () => setThemeState((t) => (t === "dark" ? "light" : "dark")),
-    setTheme: (t) => setThemeState(t),
-  }), [theme]);
+  const value = useMemo<ThemeContextValue>(
+    () => ({
+      theme,
+      toggle: () => setThemeState((t) => (t === "dark" ? "light" : "dark")),
+      setTheme: (t) => setThemeState(t),
+    }),
+    [theme],
+  );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 }
 
 export function useTheme() {
