@@ -50,7 +50,7 @@ export default function Timetable() {
               Time
             </div>
             <div style={{ height }} className="relative">
-              {HOURS.map((h, i) => (
+              {HOURS.map((h) => (
                 <div key={h.value} className="relative" style={{ height: HOUR_HEIGHT }}>
                   <div className="absolute inset-y-0 right-2 flex items-start pt-1 text-xs text-muted-foreground">
                     {h.label}

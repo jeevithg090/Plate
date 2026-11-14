@@ -129,7 +129,6 @@ export default function AlumniCountries() {
             <div key={row.country} className="flex items-center justify-between py-1.5 border-b last:border-b-0">
               <div className="flex items-center gap-2">
                 {code ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={`https://flagcdn.com/w20/${code}.png`}
                     alt={`${row.country} flag`}

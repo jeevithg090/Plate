@@ -17,7 +17,12 @@ function applyTheme(t: Theme) {
 }
 
 function readInitialTheme(): Theme {
-  const stored = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+  let stored: string | null = null;
+  try {
+    stored = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+  } catch {
+    stored = null;
+  }
   if (stored === "dark" || stored === "light") return stored;
   const prefersDark = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   return prefersDark ? "dark" : "light";
@@ -30,13 +35,20 @@ export default function ThemeProvider({ children }: PropsWithChildren) {
     applyTheme(theme);
     try {
       localStorage.setItem("theme", theme);
-    } catch {}
+    } catch {
+      // Storage may be unavailable (e.g. private mode); the theme still applies.
+    }
   }, [theme]);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const onChange = () => {
-      const stored = localStorage.getItem("theme");
+      let stored: string | null = null;
+      try {
+        stored = localStorage.getItem("theme");
+      } catch {
+        stored = null;
+      }
       if (!stored) setThemeState(mq.matches ? "dark" : "light");
     };
     mq.addEventListener?.("change", onChange);
