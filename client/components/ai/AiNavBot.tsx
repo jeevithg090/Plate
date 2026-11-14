@@ -1,36 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "@/components/theme/ThemeToggle";
+import { matchRoutes, NAV_ROUTES, type NavChoice } from "@/lib/navigator";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
-  choices?: { label: string; to: string }[];
-}
-
-const ROUTES: { to: string; labels: string[] }[] = [
-  { to: "/", labels: ["home", "homepage", "start"] },
-  { to: "/about", labels: ["about", "timeline", "history", "research stats"] },
-  { to: "/academics", labels: ["academics", "courses", "programs", "degree"] },
-  { to: "/research", labels: ["research", "medicine", "labs", "case studies", "metrics"] },
-  { to: "/student-life", labels: ["student", "life", "community", "feed"] },
-  { to: "/admissions-aid", labels: ["admissions", "aid", "scholarships", "apply"] },
-  { to: "/transfer", labels: ["transfer", "2+2", "pathway", "abroad"] },
-  { to: "/news", labels: ["news", "featured", "records", "clips"] },
-  { to: "/events", labels: ["events", "calendar", "upcoming", "current"] },
-  { to: "/faculty", labels: ["faculty", "directory", "staff", "professors"] },
-  { to: "/financial-aid", labels: ["financial", "aid", "scholarships", "tuition"] },
-  { to: "/medical-aid", labels: ["medical", "health", "insurance", "care"] },
-  { to: "/impact", labels: ["impact", "outreach", "community", "global"] },
-  { to: "/contact", labels: ["contact", "email", "address", "phone"] },
-];
-
-function matchRoutes(q: string) {
-  const query = q.toLowerCase();
-  const matches = ROUTES.filter((r) =>
-    r.labels.some((l) => query.includes(l)),
-  ).slice(0, 5);
-  return matches.map((m) => ({ label: m.to.split("/").slice(-1)[0] || "home", to: m.to }));
+  choices?: NavChoice[];
 }
 
 export default function AiNavBot() {
@@ -40,16 +16,33 @@ export default function AiNavBot() {
     role: "assistant",
     content:
       "Hi! I’m the ICAS navigator. Ask me to find pages, events, or resources—try ‘show upcoming events’ or ‘financial aid’.",
-    choices: ROUTES.slice(1, 4).map((r) => ({ label: r.to.replace("/", "") || "home", to: r.to })),
+    choices: NAV_ROUTES.slice(1, 4).map((r) => ({ label: r.title, to: r.to })),
   }]);
   const navigate = useNavigate();
+  const panelId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (!open) return;
+    inputRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const go = (to: string) => {
+    navigate(to);
+    setOpen(false);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const q = input.trim();
     if (!q) return;
@@ -71,23 +64,20 @@ export default function AiNavBot() {
     setInput("");
   };
 
-  const quick = useMemo(
-    () => [
-      { label: "About", to: "/about" },
-      { label: "Academics", to: "/academics" },
-      { label: "Events", to: "/events" },
-    ],
-    [],
-  );
-
   return (
-    <div aria-live="polite" className="fixed bottom-4 right-4 z-50">
+    <div className="fixed bottom-4 right-4 z-50">
       {/* Panel */}
       {open && (
-        <div className="mb-3 w-[min(92vw,380px)] overflow-hidden rounded-xl bg-card shadow-soft ring-1 ring-border">
+        <div
+          id={panelId}
+          role="dialog"
+          aria-label="ICAS Navigator"
+          className="mb-3 w-[min(92vw,380px)] overflow-hidden rounded-xl bg-card shadow-soft ring-1 ring-border"
+        >
           <div className="flex items-center justify-between border-b p-3">
             <div className="text-sm font-semibold">ICAS Navigator</div>
             <button
+              type="button"
               className="rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted"
               onClick={() => setOpen(false)}
               aria-label="Close navigator"
@@ -95,7 +85,7 @@ export default function AiNavBot() {
               Close
             </button>
           </div>
-          <div ref={listRef} className="max-h-72 space-y-3 overflow-auto p-3">
+          <div ref={listRef} aria-live="polite" className="max-h-72 space-y-3 overflow-auto p-3">
             {messages.map((m, i) => (
               <div key={i} className={m.role === "assistant" ? "" : "text-right"}>
                 <div className={`inline-block rounded-lg px-3 py-2 text-sm ${m.role === "assistant" ? "bg-muted text-foreground" : "bg-primary text-primary-foreground"}`}>
@@ -105,14 +95,12 @@ export default function AiNavBot() {
                   <div className="mt-2 flex flex-wrap gap-2">
                     {m.choices.map((c) => (
                       <button
+                        type="button"
                         key={c.to}
                         className="rounded-md border px-2 py-1 text-xs hover:bg-muted"
-                        onClick={() => {
-                          navigate(c.to);
-                          setOpen(false);
-                        }}
+                        onClick={() => go(c.to)}
                       >
-                        {c.label || "open"}
+                        {c.label}
                       </button>
                     ))}
                   </div>
@@ -122,6 +110,7 @@ export default function AiNavBot() {
           </div>
           <form onSubmit={handleSubmit} className="flex gap-2 border-t p-3">
             <input
+              ref={inputRef}
               aria-label="Ask ICAS"
               className="flex-1 rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
               placeholder="Ask to navigate…"
@@ -135,22 +124,6 @@ export default function AiNavBot() {
               Go
             </button>
           </form>
-          <div className="border-t p-3">
-            <div className="flex flex-wrap gap-2">
-              {quick.map((q) => (
-                <button
-                  key={q.to}
-                  className="rounded-md border px-2 py-1 text-xs hover:bg-muted"
-                  onClick={() => {
-                    navigate(q.to);
-                    setOpen(false);
-                  }}
-                >
-                  {q.label}
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       )}
 
@@ -158,12 +131,13 @@ export default function AiNavBot() {
       <div className="flex items-center justify-end gap-2">
         <ThemeToggle />
         <button
+          type="button"
           className="flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
-          aria-controls="icas-navigator"
+          aria-controls={open ? panelId : undefined}
         >
-          <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
+          <span aria-hidden className="h-2 w-2 animate-pulse rounded-full bg-accent" />
           Ask ICAS
         </button>
       </div>

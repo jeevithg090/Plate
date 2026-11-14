@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
+import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +9,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { portalCourses, portalAssignments, portalAnnouncements, portalGrades, portalQuickLinks } from "@/data/sample";
 
 export default function Portal() {
+  const { user, logout } = useAuth();
   return (
     <main>
       <SEO title="Student Portal — ICAS" description="Assignments, grades, announcements and resources." />
@@ -14,14 +17,25 @@ export default function Portal() {
         <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Student Portal</h1>
-            <p className="text-sm text-muted-foreground">Dashboard overview for your courses.</p>
+            <p className="text-sm text-muted-foreground">
+              {user ? `Signed in as ${user.name} (${user.role}). ` : ""}Dashboard overview for your courses.
+            </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {portalQuickLinks.map((l) => (
-              <Button key={l.label} asChild variant={l.variant as any}>
-                <a href={l.href} target={l.external ? "_blank" : undefined} rel={l.external ? "noreferrer" : undefined}>{l.label}</a>
+              <Button key={l.label} asChild variant={l.variant}>
+                {l.external ? (
+                  <a href={l.href} target="_blank" rel="noopener noreferrer">
+                    {l.label}
+                  </a>
+                ) : (
+                  <Link to={l.href}>{l.label}</Link>
+                )}
               </Button>
             ))}
+            <Button variant="ghost" onClick={logout}>
+              Sign out
+            </Button>
           </div>
         </div>
 
