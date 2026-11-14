@@ -1,12 +1,19 @@
 /**
- * Shared code between client and server
- * Useful to share types between client and server
- * and/or small pure JS functions that can be used on both client and server
+ * Types shared between the client and the Express server.
  */
 
-/**
- * Example response type for /api/demo
- */
-export interface DemoResponse {
+/** Response body for `GET /api/ping`. */
+export interface PingResponse {
   message: string;
+}
+
+/** Response body for `GET /api/health`. */
+export interface HealthResponse {
+  status: "ok";
+  uptime: number;
+}
+
+/** Error body returned by the API for unknown endpoints and failures. */
+export interface ApiErrorResponse {
+  error: string;
 }
