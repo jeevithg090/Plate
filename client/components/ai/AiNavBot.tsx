@@ -12,19 +12,27 @@ interface Message {
 export default function AiNavBot() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([{
-    role: "assistant",
-    content:
-      "Hi! I’m the ICAS navigator. Ask me to find pages, events, or resources—try ‘show upcoming events’ or ‘financial aid’.",
-    choices: NAV_ROUTES.slice(1, 4).map((r) => ({ label: r.title, to: r.to })),
-  }]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      content:
+        "Hi! I’m the ICAS navigator. Ask me to find pages, events, or resources—try ‘show upcoming events’ or ‘financial aid’.",
+      choices: NAV_ROUTES.slice(1, 4).map((r) => ({
+        label: r.title,
+        to: r.to,
+      })),
+    },
+  ]);
   const navigate = useNavigate();
   const panelId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
+    listRef.current?.scrollTo({
+      top: listRef.current.scrollHeight,
+      behavior: "smooth",
+    });
   }, [messages]);
 
   useEffect(() => {
@@ -85,10 +93,19 @@ export default function AiNavBot() {
               Close
             </button>
           </div>
-          <div ref={listRef} aria-live="polite" className="max-h-72 space-y-3 overflow-auto p-3">
+          <div
+            ref={listRef}
+            aria-live="polite"
+            className="max-h-72 space-y-3 overflow-auto p-3"
+          >
             {messages.map((m, i) => (
-              <div key={i} className={m.role === "assistant" ? "" : "text-right"}>
-                <div className={`inline-block rounded-lg px-3 py-2 text-sm ${m.role === "assistant" ? "bg-muted text-foreground" : "bg-primary text-primary-foreground"}`}>
+              <div
+                key={i}
+                className={m.role === "assistant" ? "" : "text-right"}
+              >
+                <div
+                  className={`inline-block rounded-lg px-3 py-2 text-sm ${m.role === "assistant" ? "bg-muted text-foreground" : "bg-primary text-primary-foreground"}`}
+                >
                   {m.content}
                 </div>
                 {m.choices && (
@@ -137,7 +154,10 @@ export default function AiNavBot() {
           aria-expanded={open}
           aria-controls={open ? panelId : undefined}
         >
-          <span aria-hidden className="h-2 w-2 animate-pulse rounded-full bg-accent" />
+          <span
+            aria-hidden
+            className="h-2 w-2 animate-pulse rounded-full bg-accent"
+          />
           Ask ICAS
         </button>
       </div>

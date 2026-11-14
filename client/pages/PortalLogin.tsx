@@ -22,7 +22,10 @@ export default function PortalLogin() {
     const fd = new FormData(e.currentTarget);
     setPending(true);
     setError("");
-    const ok = await login(String(fd.get("email") ?? ""), String(fd.get("password") ?? ""));
+    const ok = await login(
+      String(fd.get("email") ?? ""),
+      String(fd.get("password") ?? ""),
+    );
     setPending(false);
     if (ok) navigate(next, { replace: true });
     else setError("Invalid email or password.");
@@ -62,7 +65,11 @@ export default function PortalLogin() {
             />
           </div>
           {error && (
-            <p id="login-error" role="alert" className="text-sm text-destructive">
+            <p
+              id="login-error"
+              role="alert"
+              className="text-sm text-destructive"
+            >
               {error}
             </p>
           )}
@@ -70,8 +77,8 @@ export default function PortalLogin() {
             {pending ? "Signing in…" : "Sign in"}
           </Button>
           <p className="text-xs text-muted-foreground">
-            Demo accounts: student@icas.edu (student), prof@icas.edu (professor),
-            admin@icas.edu (admin). Password: icas123
+            Demo accounts: student@icas.edu (student), prof@icas.edu
+            (professor), admin@icas.edu (admin). Password: icas123
           </p>
         </form>
       </section>

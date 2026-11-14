@@ -6,10 +6,15 @@ export default function NotFound() {
 
   return (
     <main className="container flex min-h-[60vh] items-center justify-center py-16">
-      <SEO title="Page not found — ICAS" description="The requested page does not exist." />
+      <SEO
+        title="Page not found — ICAS"
+        description="The requested page does not exist."
+      />
       <div className="text-center">
         <p className="text-sm font-semibold text-primary">404</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight">Page not found</h1>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight">
+          Page not found
+        </h1>
         <p className="mt-3 text-muted-foreground">
           We couldn't find <code className="break-all">{pathname}</code>.
         </p>

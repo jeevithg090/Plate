@@ -42,7 +42,11 @@ export const NAV_ROUTES: NavRoute[] = [
     title: "Transfer (2+2)",
     keywords: ["transfer", "2+2", "pathway", "abroad"],
   },
-  { to: "/news", title: "News", keywords: ["news", "featured", "records", "clips"] },
+  {
+    to: "/news",
+    title: "News",
+    keywords: ["news", "featured", "records", "clips"],
+  },
   {
     to: "/events",
     title: "Events",

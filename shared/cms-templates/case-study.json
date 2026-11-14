@@ -9,7 +9,14 @@
     "area": { "type": "string", "description": "e.g., Oncology, Materials" },
     "metrics": {
       "type": "array",
-      "items": { "type": "object", "properties": { "label": { "type": "string" }, "value": { "type": "string" } }, "required": ["label", "value"] }
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "value": { "type": "string" }
+        },
+        "required": ["label", "value"]
+      }
     },
     "body": { "type": "string" },
     "datasetUrl": { "type": "string", "format": "uri" },

@@ -42,8 +42,23 @@ const rawDataByYear: Record<string, Record<string, number>> = {
     Germany: 1,
     Netherland: 1,
   },
-  "2016-18": { USA: 33, Australia: 41, Canada: 1, UK: 3, "New Zealand": 1, Lithuania: 1 },
-  "2017-19": { USA: 31, Australia: 34, UK: 6, Canada: 1, Germany: 1, Lithuania: 1, Netherlands: 1 },
+  "2016-18": {
+    USA: 33,
+    Australia: 41,
+    Canada: 1,
+    UK: 3,
+    "New Zealand": 1,
+    Lithuania: 1,
+  },
+  "2017-19": {
+    USA: 31,
+    Australia: 34,
+    UK: 6,
+    Canada: 1,
+    Germany: 1,
+    Lithuania: 1,
+    Netherlands: 1,
+  },
   "2018-20": { USA: 45, Australia: 29, UK: 5, Canada: 0 },
   "2019-21": { USA: 35, Australia: 5, UK: 10, Ireland: 3, US: 5 },
   "2020-22": { USA: 21, Australia: 6, US: 4, UK: 0 },
@@ -65,7 +80,9 @@ function normalizeCountry(name: string): string {
   }
 }
 
-function buildAllCountries(data: Record<string, Record<string, number>>): string[] {
+function buildAllCountries(
+  data: Record<string, Record<string, number>>,
+): string[] {
   const set = new Set<string>();
   Object.values(data).forEach((byCountry) => {
     Object.keys(byCountry).forEach((c) => set.add(normalizeCountry(c)));
@@ -79,7 +96,18 @@ function toYearData(
   data: Record<string, Record<string, number>>,
 ) {
   const counts = data[year] || {};
-  return allCountries.map((c) => ({ country: c, count: counts[c] ?? counts[c as keyof typeof counts] ?? counts[Object.keys(counts).find((k) => normalizeCountry(k) === c) as keyof typeof counts] ?? 0 }));
+  return allCountries.map((c) => ({
+    country: c,
+    count:
+      counts[c] ??
+      counts[c as keyof typeof counts] ??
+      counts[
+        Object.keys(counts).find(
+          (k) => normalizeCountry(k) === c,
+        ) as keyof typeof counts
+      ] ??
+      0,
+  }));
 }
 
 export default function AlumniCountries() {
@@ -87,12 +115,19 @@ export default function AlumniCountries() {
   const allCountries = useMemo(() => buildAllCountries(rawDataByYear), []);
   const [year, setYear] = useState<string>(years[0]);
 
-  const chartData = useMemo(() => toYearData(year, allCountries, rawDataByYear), [year, allCountries]);
+  const chartData = useMemo(
+    () => toYearData(year, allCountries, rawDataByYear),
+    [year, allCountries],
+  );
 
   return (
     <section className="mt-8">
-      <h2 className="text-xl font-semibold mb-2">Alumni — Year-wise Countries</h2>
-      <p className="text-sm text-muted-foreground">Click a year to view the country-wise distribution with flags.</p>
+      <h2 className="text-xl font-semibold mb-2">
+        Alumni — Year-wise Countries
+      </h2>
+      <p className="text-sm text-muted-foreground">
+        Click a year to view the country-wise distribution with flags.
+      </p>
 
       <div className="flex flex-wrap gap-2 mt-4">
         {years.map((y) => (
@@ -110,9 +145,18 @@ export default function AlumniCountries() {
       <div className="mt-4 rounded-lg border bg-card p-4">
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 24 }}>
+            <BarChart
+              data={chartData}
+              margin={{ top: 8, right: 16, left: 0, bottom: 24 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="country" angle={-30} textAnchor="end" interval={0} height={50} />
+              <XAxis
+                dataKey="country"
+                angle={-30}
+                textAnchor="end"
+                interval={0}
+                height={50}
+              />
               <YAxis allowDecimals={false} />
               <Tooltip formatter={(value: number) => [value, "Students"]} />
               <Bar dataKey="count" fill="#42a5f5" />
@@ -121,12 +165,19 @@ export default function AlumniCountries() {
         </div>
       </div>
 
-      <h3 className="text-base font-medium text-center mt-6">Countries (selected year)</h3>
+      <h3 className="text-base font-medium text-center mt-6">
+        Countries (selected year)
+      </h3>
       <div className="mt-2 max-h-72 overflow-auto mx-auto border rounded-md p-3 bg-background w-full md:w-[480px]">
         {chartData.map((row) => {
-          const code = countryFlags[row.country] || countryFlags[normalizeCountry(row.country)];
+          const code =
+            countryFlags[row.country] ||
+            countryFlags[normalizeCountry(row.country)];
           return (
-            <div key={row.country} className="flex items-center justify-between py-1.5 border-b last:border-b-0">
+            <div
+              key={row.country}
+              className="flex items-center justify-between py-1.5 border-b last:border-b-0"
+            >
               <div className="flex items-center gap-2">
                 {code ? (
                   <img
