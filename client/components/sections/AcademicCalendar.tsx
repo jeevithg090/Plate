@@ -22,8 +22,21 @@ function groupDatesByType() {
   return { holiday, exam, event };
 }
 
+/**
+ * Month the calendar opens on: the current month while the calendar's dates
+ * are current, otherwise the first month that has entries.
+ */
+function initialMonth(): Date {
+  const times = academicCalendarEvents.map((e) => +new Date(e.date));
+  const first = new Date(Math.min(...times));
+  const last = new Date(Math.max(...times));
+  const today = new Date();
+  return today >= first && today <= last ? today : first;
+}
+
 export default function AcademicCalendar() {
   const groups = groupDatesByType();
+  const [month, setMonth] = useState(initialMonth);
   const [selected, setSelected] = useState<Date | undefined>();
   const selectedItems = useMemo(() => {
     if (!selected) return [] as typeof academicCalendarEvents;
@@ -71,6 +84,8 @@ export default function AcademicCalendar() {
             <Calendar
               className="rounded-md border"
               numberOfMonths={2}
+              month={month}
+              onMonthChange={setMonth}
               mode="single"
               selected={selected}
               onSelect={setSelected}
@@ -129,6 +144,12 @@ export default function AcademicCalendar() {
               <CardTitle className="text-lg">Upcoming</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-3">
+              {upcoming.length === 0 && (
+                <p className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
+                  No more dates left in this calendar. The next academic
+                  calendar will appear here once it's published.
+                </p>
+              )}
               {upcoming.map((e, i) => (
                 <div
                   key={i}
