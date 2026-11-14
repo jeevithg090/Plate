@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { useAuth } from "@/context/AuthContext";
+import { formatDate, formatDateTime } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -51,8 +52,8 @@ export default function Portal() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 grid gap-6">
+        <div className="mt-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-3 [&>*]:min-w-0">
+          <div className="grid gap-6 lg:col-span-2 [&>*]:min-w-0">
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Upcoming Deadlines</CardTitle>
@@ -66,7 +67,7 @@ export default function Portal() {
                     <div>
                       <div className="text-sm font-medium">{a.title}</div>
                       <div className="mt-1 text-xs text-muted-foreground">
-                        {a.course} · Due {new Date(a.due).toLocaleString()}
+                        {a.course} · Due {formatDateTime(a.due)}
                       </div>
                     </div>
                     <Badge
@@ -99,8 +100,15 @@ export default function Portal() {
                     <div className="mt-2 text-xs text-muted-foreground">
                       {c.instructor}
                     </div>
-                    <div className="mt-3">
-                      <Progress value={c.progress} className="h-2" />
+                    <div className="mt-3 flex items-center gap-3">
+                      <Progress
+                        value={c.progress}
+                        className="h-2"
+                        aria-label={`${c.title} progress`}
+                      />
+                      <span className="w-10 shrink-0 text-right text-xs tabular-nums text-muted-foreground">
+                        {c.progress}%
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -108,12 +116,12 @@ export default function Portal() {
             </Card>
           </div>
 
-          <div className="grid gap-6">
+          <div className="grid gap-6 [&>*]:min-w-0">
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Calendar</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="overflow-x-auto">
                 <Calendar mode="single" className="rounded-md border" />
               </CardContent>
             </Card>
@@ -127,7 +135,7 @@ export default function Portal() {
                   <div key={n.id} className="rounded-md border p-3 text-sm">
                     <div className="font-medium">{n.title}</div>
                     <div className="text-xs text-muted-foreground">
-                      {new Date(n.date).toDateString()} · {n.course}
+                      {formatDate(n.date)} · {n.course}
                     </div>
                   </div>
                 ))}
