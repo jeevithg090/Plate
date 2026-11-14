@@ -1,6 +1,8 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
+import ThemeToggle from "@/components/theme/ThemeToggle";
+import SmartImage from "@/components/ui/smart-image";
 import {
   Sheet,
   SheetContent,
@@ -55,7 +57,7 @@ export default function Header() {
 
       {/* Topbar */}
       <div
-        className={`${transparent ? "text-white/90" : "text-muted-foreground"} hidden border-b/0 text-xs md:block`}
+        className={`${transparent ? "text-white/90" : "text-muted-foreground"} hidden text-xs lg:block`}
       >
         <div className="container flex h-9 items-center justify-between">
           <div className="flex items-center gap-4">
@@ -72,31 +74,40 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between gap-6">
         <Link
           to="/"
-          className={`flex items-center gap-2 font-extrabold tracking-tight ${transparent ? "text-white" : "text-primary"}`}
+          aria-label="ICAS home"
+          className={`flex shrink-0 items-center gap-2 rounded-md font-extrabold tracking-tight ${transparent ? "text-white" : "text-foreground"}`}
         >
-          <img
+          <SmartImage
             src="https://cdn.builder.io/api/v1/image/assets%2F766318eacea44b40bcc70d9d860cc3ef%2Ff91793dcf37543a2b5a1a15981fd005e?format=webp&width=80"
-            alt="ICAS logo"
-            className="h-7 w-7 rounded-sm object-contain"
+            alt=""
+            className="h-8 w-8 rounded-md object-contain"
             loading="eager"
-            width="28"
-            height="28"
+            width="32"
+            height="32"
+            fallback={
+              <span
+                aria-hidden
+                className="grid h-8 w-8 place-items-center rounded-md bg-gradient-to-br from-primary to-brand-600 text-sm font-black text-white shadow-sm"
+              >
+                i
+              </span>
+            }
           />
-          ICAS
+          <span className="text-lg">ICAS</span>
         </Link>
         <nav
           aria-label="Main"
-          className="hidden items-center gap-5 text-sm font-medium md:flex"
+          className="hidden items-center gap-1 text-sm font-medium lg:flex"
         >
           {nav.map((n) => (
             <NavLink
               key={n.to}
               to={n.to}
               className={({ isActive }) =>
-                `rounded-md px-2 py-1 transition-colors ${
+                `rounded-md px-3 py-2 transition-colors ${
                   transparent
-                    ? `text-white/90 hover:text-white ${isActive ? "underline underline-offset-4" : ""}`
-                    : `hover:text-primary ${isActive ? "text-primary" : "text-muted-foreground"}`
+                    ? `hover:bg-white/10 hover:text-white ${isActive ? "bg-white/15 text-white" : "text-white/90"}`
+                    : `hover:bg-muted hover:text-foreground ${isActive ? "bg-primary/10 text-primary" : "text-muted-foreground"}`
                 }`
               }
             >
@@ -104,13 +115,20 @@ export default function Header() {
             </NavLink>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
+          <ThemeToggle
+            className={
+              transparent
+                ? "text-white hover:bg-white/10 focus-visible:ring-white/70"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+            }
+          />
           <Link
             to="/contact"
             className={
               transparent
-                ? "hidden rounded-md border border-white/30 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white shadow-soft transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 md:inline-flex"
-                : "hidden rounded-md bg-primary px-3 py-1.5 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:inline-flex"
+                ? "ml-1 hidden h-10 items-center rounded-md border border-white/30 bg-white/10 px-4 text-sm font-semibold text-white shadow-soft transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:inline-flex"
+                : "ml-1 hidden h-10 items-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:inline-flex"
             }
           >
             Get in touch
@@ -118,14 +136,14 @@ export default function Header() {
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger
               aria-label="Open menu"
-              className={`inline-flex h-10 w-10 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden ${
+              className={`inline-flex h-10 w-10 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:hidden ${
                 transparent ? "text-white hover:bg-white/10" : "hover:bg-muted"
               }`}
             >
               <Menu className="h-5 w-5" aria-hidden />
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
-              <SheetTitle>ICAS</SheetTitle>
+            <SheetContent side="right" className="w-[min(20rem,85vw)]">
+              <SheetTitle className="text-left">Menu</SheetTitle>
               <SheetDescription className="sr-only">
                 Site navigation
               </SheetDescription>
@@ -138,8 +156,10 @@ export default function Header() {
                     key={n.to}
                     to={n.to}
                     className={({ isActive }) =>
-                      `rounded-md px-3 py-2 transition-colors hover:bg-muted ${
-                        isActive ? "text-primary" : "text-foreground"
+                      `flex min-h-11 items-center rounded-md px-3 transition-colors hover:bg-muted ${
+                        isActive
+                          ? "bg-primary/10 text-primary"
+                          : "text-foreground"
                       }`
                     }
                   >
@@ -148,7 +168,7 @@ export default function Header() {
                 ))}
                 <Link
                   to="/contact"
-                  className="mt-4 rounded-md bg-primary px-3 py-2 text-center font-semibold text-primary-foreground"
+                  className="mt-4 flex min-h-11 items-center justify-center rounded-md bg-primary px-3 font-semibold text-primary-foreground hover:bg-primary/90"
                 >
                   Get in touch
                 </Link>
