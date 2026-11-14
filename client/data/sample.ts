@@ -1209,6 +1209,7 @@ export type Alumni = {
   location?: string;
 };
 
+// Fictional sample profiles for the demo; they do not describe real people.
 export const alumni: Alumni[] = [
   {
     name: "Anika Iyer",
@@ -1217,7 +1218,6 @@ export const alumni: Alumni[] = [
     role: "Senior Software Engineer",
     company: "Google",
     location: "Bengaluru, IN",
-    linkedin: "https://www.linkedin.com/in/anikaiyer",
   },
   {
     name: "Ravi Mehta",
@@ -1226,7 +1226,6 @@ export const alumni: Alumni[] = [
     role: "Principal Engineer",
     company: "Amazon",
     location: "Hyderabad, IN",
-    linkedin: "https://www.linkedin.com/in/ravimehta",
   },
   {
     name: "Priya Nair",
@@ -1235,7 +1234,6 @@ export const alumni: Alumni[] = [
     role: "Flight Dynamics Engineer",
     company: "Airbus",
     location: "Toulouse, FR",
-    linkedin: "https://www.linkedin.com/in/priyanair",
   },
   {
     name: "Arjun Verma",
@@ -1244,7 +1242,6 @@ export const alumni: Alumni[] = [
     role: "Robotics Engineer",
     company: "Boston Dynamics",
     location: "Boston, US",
-    linkedin: "https://www.linkedin.com/in/arjunverma",
   },
   {
     name: "Meera Shah",
@@ -1253,7 +1250,6 @@ export const alumni: Alumni[] = [
     role: "Product Manager",
     company: "Microsoft",
     location: "Redmond, US",
-    linkedin: "https://www.linkedin.com/in/meerashah",
   },
   {
     name: "Karthik Rao",
@@ -1262,7 +1258,6 @@ export const alumni: Alumni[] = [
     role: "Avionics Systems Lead",
     company: "ISRO",
     location: "Bengaluru, IN",
-    linkedin: "https://www.linkedin.com/in/karthikrao",
   },
   {
     name: "Sara Fernandes",
@@ -1271,7 +1266,6 @@ export const alumni: Alumni[] = [
     role: "Automation Engineer",
     company: "Siemens",
     location: "Munich, DE",
-    linkedin: "https://www.linkedin.com/in/sarafernandes",
   },
   {
     name: "Naveen Kulkarni",
@@ -1280,7 +1274,6 @@ export const alumni: Alumni[] = [
     role: "Data Scientist",
     company: "NVIDIA",
     location: "Santa Clara, US",
-    linkedin: "https://www.linkedin.com/in/naveenkulkarni",
   },
   {
     name: "Aisha Khan",
@@ -1289,7 +1282,6 @@ export const alumni: Alumni[] = [
     role: "Propulsion Analyst",
     company: "Rolls‑Royce",
     location: "Derby, UK",
-    linkedin: "https://www.linkedin.com/in/aishakhan",
   },
 ];
 
