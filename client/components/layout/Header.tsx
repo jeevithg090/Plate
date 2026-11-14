@@ -1,5 +1,13 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const nav = [
   { to: "/about", label: "About" },
@@ -15,6 +23,7 @@ const nav = [
 export default function Header() {
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -23,6 +32,9 @@ export default function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Close the mobile menu after navigating.
+  useEffect(() => setMenuOpen(false), [pathname]);
 
   const transparent = isHome && !scrolled;
 
@@ -54,17 +66,6 @@ export default function Header() {
               +91 80 1234 5678
             </a>
           </div>
-          <div className="flex items-center gap-3">
-            <a href="#" aria-label="Facebook" className="hover:opacity-80">
-              Fb
-            </a>
-            <a href="#" aria-label="LinkedIn" className="hover:opacity-80">
-              In
-            </a>
-            <a href="#" aria-label="YouTube" className="hover:opacity-80">
-              Yt
-            </a>
-          </div>
         </div>
       </div>
 
@@ -83,7 +84,7 @@ export default function Header() {
           />
           ICAS
         </Link>
-        <nav className="hidden items-center gap-5 text-sm font-medium md:flex">
+        <nav aria-label="Main" className="hidden items-center gap-5 text-sm font-medium md:flex">
           {nav.map((n) => (
             <NavLink
               key={n.to}
@@ -111,6 +112,41 @@ export default function Header() {
           >
             Get in touch
           </Link>
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+            <SheetTrigger
+              aria-label="Open menu"
+              className={`inline-flex h-10 w-10 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden ${
+                transparent ? "text-white hover:bg-white/10" : "hover:bg-muted"
+              }`}
+            >
+              <Menu className="h-5 w-5" aria-hidden />
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72">
+              <SheetTitle>ICAS</SheetTitle>
+              <SheetDescription className="sr-only">Site navigation</SheetDescription>
+              <nav aria-label="Mobile" className="mt-6 grid gap-1 text-base font-medium">
+                {nav.map((n) => (
+                  <NavLink
+                    key={n.to}
+                    to={n.to}
+                    className={({ isActive }) =>
+                      `rounded-md px-3 py-2 transition-colors hover:bg-muted ${
+                        isActive ? "text-primary" : "text-foreground"
+                      }`
+                    }
+                  >
+                    {n.label}
+                  </NavLink>
+                ))}
+                <Link
+                  to="/contact"
+                  className="mt-4 rounded-md bg-primary px-3 py-2 text-center font-semibold text-primary-foreground"
+                >
+                  Get in touch
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

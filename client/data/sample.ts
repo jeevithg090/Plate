@@ -1,3 +1,5 @@
+import type { DemoAccount } from "@/lib/auth";
+
 export const programs = [
   {
     id: "cse",
@@ -1417,9 +1419,13 @@ export const portalGrades = {
   ],
 };
 
-export const portalQuickLinks = [
-  { label: "Submit Assignment", href: "/portal#submit", variant: "default" },
-  { label: "Ask in Forum", href: "/portal#forum", variant: "outline" },
+export const portalQuickLinks: {
+  label: string;
+  href: string;
+  variant: "default" | "outline" | "secondary";
+  external?: boolean;
+}[] = [
+  { label: "Submit Assignment", href: "/portal/courses", variant: "default" },
   {
     label: "Meet Link",
     href: "https://meet.google.com/",
@@ -1428,7 +1434,7 @@ export const portalQuickLinks = [
   },
 ];
 
-export const portalUsers = [
+export const portalUsers: DemoAccount[] = [
   {
     email: "student@icas.edu",
     password: "icas123",

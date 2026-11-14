@@ -1,41 +1,51 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { portalUsers } from "@/data/sample";
+import {
+  authenticate,
+  readStoredUser,
+  writeStoredUser,
+  type AuthUser,
+} from "@/lib/auth";
+import { getBrowserStorage } from "@/lib/storage";
 
-type Role = "student" | "professor" | "admin";
-export type User = { email: string; name: string; role: Role } | null;
+export type { AuthUser, Role } from "@/lib/auth";
 
-type AuthCtx = {
-  user: User;
+interface AuthContextValue {
+  user: AuthUser | null;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
-};
+}
 
-const AuthContext = createContext<AuthCtx | undefined>(undefined);
-const KEY = "icas_auth_user";
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User>(null);
+export function AuthProvider({ children }: { children: ReactNode }) {
+  // Read the session synchronously so protected routes don't redirect to
+  // /login on a hard refresh before the stored session is restored.
+  const [user, setUser] = useState<AuthUser | null>(() =>
+    readStoredUser(getBrowserStorage()),
+  );
 
-  useEffect(() => {
-    const raw = localStorage.getItem(KEY);
-    if (raw) setUser(JSON.parse(raw));
+  const login = useCallback(async (email: string, password: string) => {
+    const match = authenticate(portalUsers, email, password);
+    if (!match) return false;
+    setUser(match);
+    writeStoredUser(getBrowserStorage(), match);
+    return true;
   }, []);
 
-  const value = useMemo<AuthCtx>(() => ({
-    user,
-    async login(email, password) {
-      const match = portalUsers.find((u) => u.email === email && u.password === password);
-      if (!match) return false;
-      const u = { email: match.email, name: match.name, role: match.role as Role } as User;
-      setUser(u);
-      localStorage.setItem(KEY, JSON.stringify(u));
-      return true;
-    },
-    logout() {
-      setUser(null);
-      localStorage.removeItem(KEY);
-    },
-  }), [user]);
+  const logout = useCallback(() => {
+    setUser(null);
+    writeStoredUser(getBrowserStorage(), null);
+  }, []);
+
+  const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
